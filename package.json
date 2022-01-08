@@ -1,0 +1,16 @@
+{
+  "name": "order",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Maria Eduarda <mariaeduarda-souza@hotmail.com.br>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.12.0",
+    "typescript": "^4.5.4"
+  }
+}
