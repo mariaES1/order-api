@@ -4,25 +4,31 @@ import Product from '../entities/product';
 import { ProductRepository } from '../repositories/productsRepository';
 
 interface IRequest {
+  id: string;
   name: string;
   price: number;
   quantity: number;
 }
 
-class CreateProductService {
-  public async execute({ name, price, quantity }: IRequest): Promise<Product> {
+class UpdateProductService {
+  public async execute({ id, name, price, quantity }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductRepository);
-    const foundProduct = await productsRepository.findByName(name);
 
-    if (foundProduct) {
+    const product = await productsRepository.findOne(id);
+
+    if (!product) {
+      throw new AppError('Product not found');
+    }
+
+    const foundByNameProduct = await productsRepository.findByName(name);
+
+    if (foundByNameProduct && name != product.name) {
       throw new AppError('There is already one product with this name.');
     }
 
-    const product = productsRepository.create({
-      name,
-      price,
-      quantity,
-    });
+    product.name = name;
+    product.price = price;
+    product.quantity = quantity;
 
     await productsRepository.save(product);
 
@@ -30,4 +36,4 @@ class CreateProductService {
   }
 }
 
-export default CreateProductService;
+export default UpdateProductService;
